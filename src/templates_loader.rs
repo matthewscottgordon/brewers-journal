@@ -10,7 +10,7 @@ static TERA_TEMPLATE_DIR: Dir = include_dir!("src/templates");
 
 pub fn load_templates() -> impl Filter<Extract = (Arc<Tera>,), Error = Infallible> + Clone
 {
-    let mut tera = Tera::new("templates/*.html").expect("Tera templates can be loaded");
+    let mut tera = Tera::default();
     let (templates, errors): (Vec<_>, Vec<_>) = TERA_TEMPLATE_DIR
         .files()
         .iter()
