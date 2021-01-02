@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Create Recipe</title>
-  </head>
-  <body>
-    <h1>New Recipe</h1>
-    <form method="post">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+{% extends "base.tera" %}
+{% block title %}Create Recipe{% endblock title %}
+{% block content %}
+  <h1>New Recipe</h1>
+  <form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
 
-      <input type="submit" value="Create">
-    </form><p>
-  </body>
-</html>
+    <input type="submit" value="Create">
+  </form>
+{% endblock content %}

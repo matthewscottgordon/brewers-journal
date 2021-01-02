@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Recipes</title>
-    </head>
-    <body>
-        <h1>Recipes</h1>
-        <ol>
-        {% for recipe in recipes%}
-            <li>{{recipe.name}}</li>
-        {%- endfor %}
-        </ol>
-    </body>
-</html>
+{% extends "base.tera" %}
+{% block title %}Recipe List{% endblock title %}
+{% block content %}
+   <h1>Recipes</h1>
+     <ol>
+     {%- for recipe in recipes %}
+       <li>{{recipe.name}}</li>
+     {%- endfor %}
+   </ol>
+{% endblock content %}
