@@ -8,8 +8,16 @@ use std::sync::Arc;
 
 static TERA_TEMPLATE_DIR: Dir = include_dir!("src/templates");
 
-pub fn load_templates() -> impl Filter<Extract = (Arc<Tera>,), Error = Infallible> + Clone
-{
+pub fn eprint_tera_error(e: &dyn std::error::Error) -> () {
+    eprint!("Error loading Tera templates: {0}", e);
+    match e.source() {
+        Some(source) => eprint_tera_error(source),
+        None => (),
+    };
+}
+
+pub fn load_templates(
+) -> Option<impl Filter<Extract = (Arc<Tera>,), Error = Infallible> + Clone> {
     let mut tera = Tera::default();
     let (templates, errors): (Vec<_>, Vec<_>) = TERA_TEMPLATE_DIR
         .files()
@@ -34,8 +42,8 @@ pub fn load_templates() -> impl Filter<Extract = (Arc<Tera>,), Error = Infallibl
         }
     }
     tera.add_raw_templates(templates)
-        .expect("Tera templates can be loaded");
+        .unwrap_or_else(|e| eprint_tera_error(&e));
     let tera = Arc::new(tera);
 
-    warp::any().map(move || Arc::clone(&tera))
+    Some(warp::any().map(move || Arc::clone(&tera)))
 }

@@ -10,7 +10,10 @@ use db::with_db;
 
 #[tokio::main]
 async fn main() {
-    let with_templates = templates_loader::load_templates();
+    let with_templates = match templates_loader::load_templates() {
+        Some(t) => t,
+        None => panic!("Could not load templates."),
+    };
 
     let db_pool = db::init().await;
 
